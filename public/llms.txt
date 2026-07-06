@@ -7,73 +7,73 @@
 ## Pages
 
 ### בית
-https://next-level-football-547426d5.zappy5.app
+https://example.com
 חנות הציוד המובילה לכדורגלנים שרוצים יתרון אמיתי. גומיות התנגדות, עזרי אימון גומי ובסיס gelure rubber base לשיפור הביצועים. הצטרפו עכשיו לאימון המנצח!
 
 ### גישת האימון
-https://next-level-football-547426d5.zappy5.app/training-approach
+https://example.com/training-approach
 גישת אימון ייחודית שמשלבת טכנולוגיה מתקדמת עם כלים כמו גומיות התנגדות. למדו איך בסיס gelure rubber base משנה את חוקי המשחק. התחילו להתאמן חכם יותר עוד היום!
 
 ### למאמנים
-https://next-level-football-547426d5.zappy5.app/for-coaches
+https://example.com/for-coaches
 מאמנים, זה הזמן להקפיץ את הקבוצה קדימה. עזרי אימון גומי, גומיות מקצועיות ו- gelure rubber base שיתנו לשחקנים שלכם את היתרון. הצטיידו עכשיו והובילו לתוצאות בשטח!
 
 ### שאלות נפוצות
-https://next-level-football-547426d5.zappy5.app/faq
+https://example.com/faq
 יש לכם שאלות על גומיות התנגדות, שימוש ב- gelure rubber base או שיטות אימון? כל התשובות מחכות כאן. היכנסו לקבל מידע אמין ולהתחיל להתאמן בביטחון מלא!
 
 ### צור קשר
-https://next-level-football-547426d5.zappy5.app/contact
+https://example.com/contact
 רוצים לשמוע עוד על ציוד אימון כדורגל, גומיות מקצועיות או בסיס gelure rubber base? צרו קשר עכשיו ונחזור אליכם עם כל הפרטים. הדרך להצלחה מתחילה כאן!
 
 ### Products
-https://next-level-football-547426d5.zappy5.app/products
+https://example.com/products
 המוצרים שלנו - Next Level Football
 
 ### Cart
-https://next-level-football-547426d5.zappy5.app/cart
+https://example.com/cart
 עגלת הקניות שלך
 
 ### Checkout
-https://next-level-football-547426d5.zappy5.app/checkout
+https://example.com/checkout
 תשלום
 
 ### Login
-https://next-level-football-547426d5.zappy5.app/login
+https://example.com/login
 התחברות לקוחות
 
 ### Account
-https://next-level-football-547426d5.zappy5.app/account
+https://example.com/account
 החשבון שלי
 
 ### Order Success
-https://next-level-football-547426d5.zappy5.app/order-success
+https://example.com/order-success
 תודה על ההזמנה
 
 ### Product Detail
-https://next-level-football-547426d5.zappy5.app/product/:slug
+https://example.com/product/:slug
 פרטי המוצר - Next Level Football
 
 ### Category
-https://next-level-football-547426d5.zappy5.app/category/:slug
+https://example.com/category/:slug
 מוצרים - Next Level Football
 
 ### תודה - Next Level Football
-https://next-level-football-547426d5.zappy5.app/thank-you
+https://example.com/thank-you
 Next Level Football - תודה - Next Level Football
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://next-level-football-547426d5.zappy5.app/privacy
+https://example.com/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://next-level-football-547426d5.zappy5.app/terms
+https://example.com/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://next-level-football-547426d5.zappy5.app/accessibility
+https://example.com/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -102,8 +102,8 @@ Sports Equipment E-commerce
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://next-level-football-547426d5.zappy5.app/sitemap.xml
-- Robots: https://next-level-football-547426d5.zappy5.app/robots.txt
-- Flattened page text (for LLMs): https://next-level-football-547426d5.zappy5.app/llms-full.txt
-- Products (JSON): https://next-level-football-547426d5.zappy5.app/products.json
-- Products (Google Merchant RSS): https://next-level-football-547426d5.zappy5.app/product-feed.xml
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt
+- Products (JSON): https://example.com/products.json
+- Products (Google Merchant RSS): https://example.com/product-feed.xml
