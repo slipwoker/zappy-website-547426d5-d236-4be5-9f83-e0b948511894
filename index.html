@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>שדרגו את המשחק עם ציוד אימון מתקדם — Next Level Football</title>
+    <meta name="description" content="חנות הציוד המובילה לכדורגלנים שרוצים יתרון אמיתי. גומיות התנגדות, עזרי אימון גומי ובסיס gelure rubber base לשיפור הביצועים. הצטרפו עכשיו לאימון המנצח!">
+    <meta name="keywords" content="Next Level Football, gelure rubber base, גומיות, ציוד אימון כדורגל, שיפור ביצועים">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '547426d5-d236-4be5-9f83-e0b948511894',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        var clickMeta = {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        };
+        
+        trackEvent('click', clickMeta);
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        var navMeta = {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        };
+        
+        trackEvent('navigation', navMeta);
+      }
+    }, true);
+  }
+  
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="שדרגו את המשחק עם ציוד אימון מתקדם — Next Level Football">
+    <meta property="og:description" content="חנות הציוד המובילה לכדורגלנים שרוצים יתרון אמיתי. גומיות התנגדות, עזרי אימון גומי ובסיס gelure rubber base לשיפור הביצועים. הצטרפו עכשיו לאימון המנצח!">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="שדרגו את המשחק עם ציוד אימון מתקדם — Next Level Football">
+    <meta name="twitter:description" content="חנות הציוד המובילה לכדורגלנים שרוצים יתרון אמיתי. גומיות התנגדות, עזרי אימון גומי ובסיס gelure rubber base לשיפור הביצועים. הצטרפו עכשיו לאימון המנצח!">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; }
+    .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; }
+    :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; }
+  </style>
+
+
+  
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-light) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-light) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-light) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+
+    <div class="mobile-search-panel" id="mobile-search-panel">
+      <div class="search-wrapper">
+        <input type="text" id="mobile-search-input" placeholder="חיפוש מוצרים..." autocomplete="off">
+        <button class="search-submit" id="mobile-search-submit" title="חיפוש">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <button class="close-search" id="close-mobile-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="search-results" id="mobile-search-results"></div>
+    </div>
+  
+<script>window.ZAPPY_PRODUCTS_LISTING_PATH = "/products";</script>
+<script>window.ZAPPY_WEBSITE_ID = "547426d5-d236-4be5-9f83-e0b948511894";window.ZAPPY_API_BASE = "https://api.zappy5.com";</script><a class="skip-link" href="#main">דלג לתוכן הראשי</a>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link"><img class="logo" src="/assets/site-----image-1.webp" alt="Next Level Football"></a>
+    </div><ul class="nav-menu" id="navMenu">
+
+    <li class="menu-item-has-children zappy-products-dropdown">
+      <a href="/products">
+        מוצרים
+        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </a>
+      <ul class="sub-menu" id="zappy-nav-category-links">
+        <li><a href="/products" data-i18n="ecom_products">מוצרים</a></li>
+        <!-- Categories will be loaded dynamically -->
+      </ul>
+    </li>
+  <li><a href="/">בית</a></li><li><a href="/training-approach">גישת האימון</a></li><li><a href="/for-coaches">למאמנים</a></li><li><a href="/faq">שאלות נפוצות</a></li><li><a href="/contact">צור קשר</a></li></ul><div class="nav-ecommerce-icons nav-icons-left"><a href="/login" class="login-link nav-login" title="התחברות"><svg class="login-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a><a href="#cart" class="cart-link nav-cart" id="cart-drawer-toggle" title="עגלת קניות"><svg class="cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-count">0</span></a><div class="nav-search-box">
+    <input type="text" class="nav-search-input" id="nav-search-input" placeholder="חיפוש מוצרים..." autocomplete="off">
+    <button class="nav-search-btn" id="nav-search-btn" title="חיפוש">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </button>
+    <div class="nav-search-results" id="nav-search-results"></div>
+  </div></div><div class="nav-ecommerce-icons nav-icons-right"><button class="nav-search-toggle" id="mobile-search-toggle" title="חיפוש"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button></div></div>
+    
+    
+    
+    
+  </div>
+</nav>
+
+    <nav class="zappy-catalog-menu rtl" id="zappy-catalog-menu" dir="rtl" style="display:none">
+      <div class="catalog-menu-container">
+        <a href="/products" class="catalog-menu-item catalog-menu-all">מוצרים</a>
+        <div class="catalog-menu-categories" id="zappy-category-links">
+          <!-- Categories will be loaded dynamically -->
+        </div>
+      </div>
+    </nav>
+  
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .navbar,
+          nav.navbar {
+            min-height: 70px !important;
+          }
+
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            transform: none !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-light)) !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent !important;
+          }
+
+          html[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          body[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] header .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] nav .phone-header-btn {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '0', 'important');
+          mobileToggle.style.setProperty('bottom', '0', 'important');
+          mobileToggle.style.setProperty('margin-top', 'auto', 'important');
+          mobileToggle.style.setProperty('margin-bottom', 'auto', 'important');
+          mobileToggle.style.setProperty('transform', 'none', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '0', 'important');
+          phoneBtn.style.setProperty('bottom', '0', 'important');
+          phoneBtn.style.setProperty('margin-top', 'auto', 'important');
+          phoneBtn.style.setProperty('margin-bottom', 'auto', 'important');
+          phoneBtn.style.setProperty('transform', 'none', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu handler (shared by click and touchend)
+    function handleToggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+      const closeIcon = newToggle.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('menu-open');
+        console.log('[Navbar] Menu opened');
+      }
+    }
+    
+    // Use click for desktop/emulation and touchend as iOS Safari fallback.
+    // Prevent double-fire with a timestamp guard.
+    var lastToggleTime = 0;
+    function guardedToggle(e) {
+      var now = Date.now();
+      if (now - lastToggleTime < 300) return;
+      lastToggleTime = now;
+      handleToggle(e);
+    }
+    
+    newToggle.addEventListener('click', guardedToggle);
+    newToggle.addEventListener('touchend', guardedToggle);
+
+    // Close the full-screen overlay menu on Escape
+    document.addEventListener('keydown', function(e) {
+      if ((e.key === 'Escape' || e.key === 'Esc') && navMenu.classList.contains('active')) {
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
+        console.log('[Navbar] Menu closed (Escape)');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main id="main">
+    <section data-band-index="0" class="index-hero-section" data-layout-spec="בית-hero" data-hero-type="fullscreen-scrim">
+  <!-- Full-bleed Background Image -->
+  <img loading="eager" fetchpriority="high" data-hero-bg="true" class="hero-bg-image" data-placeholder="index-hero-image-1" data-context="Intense night football training on a dark field with visible turf texture, subtle motion blur on a player sprinting with a ball, field-line geometry under stadium floodlights, cinematic sports editorial style" width="1200" height="600" src="/assets/site-index-hero-image-1.webp" alt="אימון כדורגל אינטנסיבי על מגרש חשוך בלילה">
+
+  <!-- Scrim Overlay for Text Legibility -->
+  <div class="hero-scrim" aria-hidden="true"></div>
+
+  <!-- Decorative Tactical Heatmap Motif -->
+  <div class="hero-heatmap-motif" aria-hidden="true">
+    <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="110" cy="110" r="100" fill="none" stroke="#FF4500" stroke-width="1" opacity="0.3"/>
+      <circle cx="110" cy="110" r="75" fill="none" stroke="#FF4500" stroke-width="1" opacity="0.4"/>
+      <circle cx="110" cy="110" r="50" fill="none" stroke="#FF4500" stroke-width="1" opacity="0.5"/>
+      <circle cx="110" cy="110" r="25" fill="none" stroke="#FF4500" stroke-width="1" opacity="0.6"/>
+      <circle cx="110" cy="110" r="8" fill="#FF4500" opacity="0.8"/>
+      <radialGradient id="heatmapGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FF4500" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
+      </radialGradient>
+      <circle cx="110" cy="110" r="100" fill="url(#heatmapGrad)"/>
+    </svg>
+  </div>
+
+  <!-- Decorative Speed Bar Chart Motif -->
+  <div class="hero-speed-chart" aria-hidden="true">
+    <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="50" width="12" height="20" fill="#7B5CF0" opacity="0.6" rx="2"/>
+      <rect x="30" y="35" width="12" height="35" fill="#7B5CF0" opacity="0.7" rx="2"/>
+      <rect x="50" y="20" width="12" height="50" fill="#7B5CF0" opacity="0.8" rx="2"/>
+      <rect x="70" y="5" width="12" height="65" fill="#7B5CF0" opacity="0.9" rx="2"/>
+      <rect x="90" y="15" width="12" height="55" fill="#7B5CF0" opacity="0.85" rx="2"/>
+      <text x="60" y="78" fill="#7B5CF0" font-size="8" font-weight="700" text-anchor="middle" opacity="0.9">SPEED</text>
+    </svg>
+  </div>
+
+  <!-- Text Overlay Group -->
+  <div class="hero-overlay-group">
+    <h1 class="hero-headline">תביא את הכדורגל שלך לרמה הבאה</h1>
+    <h3 class="hero-subtitle">גומיות התנגדות, כלי אימון מגומי וכדורים מיוחדים לשליטה, מהירות ועוצמה חדה יותר</h3>
+    <p class="hero-description">ציוד אימון פרקטי לשחקנים, קבוצות נוער ומאמנים שרוצים יתרון תחרותי אמיתי על המגרש</p>
+    <div class="hero-cta-group">
+      <a href="/products" class="hero-cta-primary">גלה את ציוד האימון</a>
+      <a href="/contact" class="hero-cta-secondary">דבר איתנו</a>
+    </div>
+  </div>
+
+  <!-- Bottom Divider: Dark-to-turf gradient fade + chalk-line SVG arc -->
+  <div class="hero-divider-wrapper" aria-hidden="true">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="heroFadeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#0A0C12" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#12151F" stop-opacity="1"/>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="80" fill="url(#heroFadeGrad)"/>
+      <path d="M0,80 L0,45 Q150,30 300,48 T600,42 Q750,35 900,46 T1200,40 L1200,80 Z" fill="#0A0C12" stroke="#F5C842" stroke-width="2" stroke-dasharray="8 4" opacity="0.6"/>
+      <path d="M0,80 L0,55 Q200,40 400,56 T800,50 Q1000,42 1200,48 L1200,80 Z" fill="#0A0C12" stroke="#F5C842" stroke-width="1" stroke-dasharray="4 6" opacity="0.3"/>
+    </svg>
+  </div>
+</section>
+
+    <section class="featured-products-section" id="featured-products" data-zappy-dynamic="true">
+      <div class="container">
+        <h2 class="section-title">מוצרים מומלצים</h2>
+        <div class="product-grid featured-grid" id="zappy-featured-products">
+          <div class="loading-products">טוען מוצרים...</div>
+        </div>
+        <div class="view-all-products">
+          <a href="/products" class="btn btn-primary">צפה בכל המוצרים →</a>
+        </div>
+      </div>
+    </section>
+  
+
+    <section class="featured-categories-section" id="featured-categories" data-zappy-dynamic="true">
+      <div class="container">
+        <h2 class="section-title">קנו לפי קטגוריה</h2>
+        <div class="category-blocks" id="zappy-featured-categories">
+          <div class="loading-categories">טוען מוצרים...</div>
+        </div>
+      </div>
+    </section>
+  
+
+<section data-band-index="1" class="index-capabilities-section" data-layout-spec="בית-capabilities" dir="rtl">
+  <!-- Decorative SVG: tactical pitch diagram -->
+  <div class="index-capabilities-section__decorative-pitch" aria-hidden="true">
+    <svg viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="40" width="720" height="520" stroke="rgba(123,92,240,0.08)" stroke-width="2" stroke-dasharray="8 8"/>
+      <line x1="400" y1="40" x2="400" y2="560" stroke="rgba(123,92,240,0.06)" stroke-width="1"/>
+      <circle cx="400" cy="300" r="100" stroke="rgba(123,92,240,0.06)" stroke-width="1"/>
+      <circle cx="400" cy="300" r="180" stroke="rgba(123,92,240,0.04)" stroke-width="1"/>
+      <rect x="340" y="200" width="120" height="200" stroke="rgba(123,92,240,0.05)" stroke-width="1"/>
+      <rect x="340" y="260" width="120" height="80" stroke="rgba(123,92,240,0.05)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- Decorative SVG: heatmap radar (top-right) -->
+  <div class="index-capabilities-section__decorative-radar" aria-hidden="true">
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="90" fill="url(#radar-grad)" opacity="0.3"/>
+      <circle cx="100" cy="100" r="60" stroke="rgba(255,69,0,0.3)" stroke-width="1.5" fill="none"/>
+      <circle cx="100" cy="100" r="30" stroke="rgba(255,69,0,0.4)" stroke-width="1.5" fill="none"/>
+      <circle cx="100" cy="100" r="8" fill="#FF4500" opacity="0.8"/>
+      <defs>
+        <radialGradient id="radar-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FF4500" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Content Container -->
+  <div class="index-capabilities-section__container">
+    <!-- Section Header -->
+    <div class="index-capabilities-section__header">
+      <h2 class="index-capabilities-section__title">
+        <span class="index-capabilities-section__title-accent">CAPABILITIES</span>
+        <span class="index-capabilities-section__title-main">היכולות שמביאות אתכם לשלב הבא</span>
+      </h2>
+      <p class="index-capabilities-section__subtitle">
+        Next Level Football לא רק מוכרת ציוד — אנחנו בונים מתודולוגיית אימון שלמה. משיפור כוח מתפרץ ועד שליטה מדויקת בכדור, הכלים שלנו הופכים כל אימון להזדמנות להשתפר.
+      </p>
+    </div>
+
+    <!-- Capability Cards Grid -->
+    <div class="index-capabilities-section__grid">
+      
+      <!-- Card 1: Acceleration (Taller) -->
+      <article class="index-capabilities-section__card index-capabilities-section__card--tall">
+        <div class="index-capabilities-section__card-glow"></div>
+        <div class="index-capabilities-section__card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 38L32 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M22 10H32V20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="14" cy="34" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <h3 class="index-capabilities-section__card-title">תאוצה מתפרצת</h3>
+        <p class="index-capabilities-section__card-text">
+          אימוני התנגדות עם גומיות מקצועיות משפרים את הכוח המתפרץ והמהירות על המגרש. התרגילים שלנו מדמים תנועות משחק אמיתיות כדי לתת לכם יתרון בכל ספרינט.
+        </p>
+        <div class="index-capabilities-section__card-stat">
+          <span class="index-capabilities-section__stat-number">+40%</span>
+          <span class="index-capabilities-section__stat-label">שיפור בכוח מתפרץ</span>
+        </div>
+      </article>
+
+      <!-- Card 2: Ball Control (Compact) -->
+      <article class="index-capabilities-section__card index-capabilities-section__card--compact">
+        <div class="index-capabilities-section__card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="2"/>
+            <path d="M18 24C18 24 20 18 24 18C28 18 30 24 30 24C30 24 28 30 24 30C20 30 18 24 18 24Z" stroke="currentColor" stroke-width="2"/>
+            <circle cx="24" cy="24" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="index-capabilities-section__card-title">שליטה בכדור</h3>
+        <p class="index-capabilities-section__card-text">
+          כדורים ייחודיים עם משקלים ומרקמים משתנים מחדדים את הנגיעה הראשונה ואת הדיוק במסירות. תרגישו את ההבדל מהאימון הראשון.
+        </p>
+      </article>
+
+      <!-- Card 3: Team Training (with Badge) -->
+      <article class="index-capabilities-section__card index-capabilities-section__card--badge">
+        <div class="index-capabilities-section__card-badge">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M9 6V4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V6" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 12L11 15L16 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>תוכניות אימון</span>
+        </div>
+        <div class="index-capabilities-section__card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"/>
+            <path d="M24 14V24L30 30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 24H14M34 24H36M24 12V14M24 34V36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="index-capabilities-section__card-title">אימוני קבוצה חוזרים</h3>
+        <p class="index-capabilities-section__card-text">
+          ערכות אימון מובנות למאמנים וקבוצות נוער. צרו שגרות אימון אפקטיביות שחוזרות על עצמן ומטמיעות טכניקה נכונה לאורך זמן.
+        </p>
+        <div class="index-capabilities-section__card-stat-mini">
+          <span class="index-capabilities-section__stat-mini-num">85%</span>
+          <span class="index-capabilities-section__stat-mini-label">שיפור בעקביות</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom Divider: Angled Sprint Lane -->
+  <div class="index-capabilities-section__divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sprint-line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FF7A2F" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#FF7A2F" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#FF7A2F" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- Main angled clip path filling bottom -->
+      <path d="M0,100 L0,60 L1200,10 L1200,100 Z" fill="#F2F0E8"/>
+      <!-- Signal-yellow line embedded in the slope -->
+      <line x1="0" y1="62" x2="1200" y2="12" stroke="url(#sprint-line-grad)" stroke-width="2"/>
+      <!-- Subtle chalk dash line above -->
+      <line x1="0" y1="58" x2="1200" y2="8" stroke="var(--accent)" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
+    </svg>
+  </div>
+</section>
+
+<section data-band-index="2" class="index-methodology-section" data-layout-spec="בית-methodology">
+  <div class="index-methodology-section__container">
+    <!-- Header -->
+    <div class="methodology-header">
+      <span class="methodology-label">שיטת האימון</span>
+      <h2 class="methodology-title">הדרך שלך לשיפור ביצועים</h2>
+      <p class="methodology-subtitle">
+        הציוד של <strong>Next Level Football</strong> הוא לא רק מוצר — הוא חלק משיטת אימון חכמה.
+        כל גומייה, בסיס גומי וכלי עזר נועדו להשתלב בתהליך מדויק שמביא תוצאות אמיתיות על המגרש.
+      </p>
+    </div>
+
+    <!-- Pathway Diagram -->
+    <div class="methodology-pathway">
+      <!-- Step 1 -->
+      <div class="pathway-step">
+        <div class="step-marker">
+          <span class="step-number">01</span>
+          <div class="heatmap-blob heatmap-blob--orange"></div>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">בחר את מטרת הביצוע</h3>
+          <p class="step-text">הגדר במדויק מה אתה רוצה לשפר: מהירות, כוח מתפרץ, שליטה בכדור או יציבות. כל מטרה מובילה לבחירת כלי אימון ייעודי.</p>
+        </div>
+      </div>
+
+      <!-- Connector 1-2 -->
+      <div class="pathway-connector">
+        <svg viewBox="0 0 24 100" class="connector-svg" aria-hidden="true">
+          <line x1="12" y1="0" x2="12" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6" opacity="0.3"/>
+          <circle cx="12" cy="50" r="3" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="pathway-step">
+        <div class="step-marker">
+          <span class="step-number">02</span>
+          <div class="heatmap-blob heatmap-blob--violet"></div>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">התאם את הכלי לתרגיל</h3>
+          <p class="step-text">בחר את הציוד הנכון — גומיות התנגדות, בסיס גומי ליציבות, או כדורים ייעודיים — והגדר את רמת הקושי שתתאים ליכולות שלך כרגע.</p>
+        </div>
+      </div>
+
+      <!-- Connector 2-3 -->
+      <div class="pathway-connector">
+        <svg viewBox="0 0 24 100" class="connector-svg" aria-hidden="true">
+          <line x1="12" y1="0" x2="12" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6" opacity="0.3"/>
+          <circle cx="12" cy="50" r="3" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="pathway-step">
+        <div class="step-marker">
+          <span class="step-number">03</span>
+          <div class="heatmap-blob heatmap-blob--orange"></div>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">חזור עם כוונה מדידה</h3>
+          <p class="step-text">בצע חזרות ממוקדות, עקוב אחר מספר החזרות והזמן, ושאף לשיפור הדרגתי. האימון הופך להרגל — לא לעוד אימון סתמי.</p>
+        </div>
+      </div>
+
+      <!-- Connector 3-4 -->
+      <div class="pathway-connector">
+        <svg viewBox="0 0 24 100" class="connector-svg" aria-hidden="true">
+          <line x1="12" y1="0" x2="12" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4 6" opacity="0.3"/>
+          <circle cx="12" cy="50" r="3" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="pathway-step">
+        <div class="step-marker">
+          <span class="step-number">04</span>
+          <div class="heatmap-blob heatmap-blob--violet"></div>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">יישם את השיפור על המגרש</h3>
+          <p class="step-text">קח את היכולות שפיתחת באימון אל המשחק האמיתי. ראה איך הכוח, המהירות והשליטה משתפרים — ותרגיש את ההבדל בכל נגיעה בכדור.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom divider: torn-chalk SVG edge -->
+  <div class="index-methodology-section__divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Main torn edge -->
+      <path d="M0,80 L0,35 Q30,28 60,38 T120,30 Q150,36 180,28 T240,35 Q270,30 300,38 T360,28 Q390,34 420,30 T480,35 Q510,28 540,36 T600,30 Q630,34 660,28 T720,35 Q750,30 780,36 T840,28 Q870,34 900,30 T960,35 Q990,28 1020,38 T1080,30 Q1110,34 1140,28 T1200,35 L1200,80 Z" fill="#0A0C12"/>
+      <!-- Chalk dust marks (scattered dots) -->
+      <circle cx="150" cy="65" r="1.5" fill="var(--text-muted)" opacity="0.4"/>
+      <circle cx="320" cy="55" r="1" fill="var(--text-muted)" opacity="0.3"/>
+      <circle cx="480" cy="70" r="2" fill="var(--text-muted)" opacity="0.35"/>
+      <circle cx="650" cy="60" r="1.5" fill="var(--text-muted)" opacity="0.4"/>
+      <circle cx="800" cy="68" r="1" fill="var(--text-muted)" opacity="0.3"/>
+      <circle cx="950" cy="58" r="2" fill="var(--text-muted)" opacity="0.35"/>
+      <circle cx="1100" cy="72" r="1.5" fill="var(--text-muted)" opacity="0.4"/>
+      <circle cx="200" cy="45" r="1" fill="var(--text-muted)" opacity="0.25"/>
+      <circle cx="550" cy="50" r="1.5" fill="var(--text-muted)" opacity="0.3"/>
+      <circle cx="880" cy="48" r="1" fill="var(--text-muted)" opacity="0.25"/>
+    </svg>
+  </div>
+</section>
+
+<section data-band-index="3" class="index-showcase-section" data-layout-spec="בית-showcase" dir="rtl">
+  <div class="index-showcase-section__container">
+    <!-- Editorial Split: Content Column (Right) + Image Grid Column (Left) -->
+    <div class="editorial-grid">
+      
+      <!-- Content Column -->
+      <div class="editorial-text">
+        <span class="accent-label">אימון טקטי</span>
+        <h2>ציוד שטח שעושה את ההבדל באימון הבא</h2>
+        <p class="editorial-description">
+          ב-Next Level Football אנחנו בוחרים כל פריט כמו שמנתחים מהלך על הלוח – בדיוק, בעוצמה ובלי פשרות.
+          הגומיות, כדורי האימון ועזרי ההתנגדות שלנו נבנו כדי להפוך כל תרגיל לחד יותר, מהיר יותר ואפקטיבי יותר.
+        </p>
+        
+        <div class="proof-points">
+          <!-- Point 1 -->
+          <div class="proof-item">
+            <div class="proof-icon-wrapper">
+              <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="proof-content">
+              <h3>מיקוד אישי באימון</h3>
+              <p>כלים שמאפשרים לך לעבוד על נקודות התורפה שלך בקצב שלך, ולהפוך כל דקה במגרש לאפקטיבית.</p>
+            </div>
+          </div>
+          <!-- Point 2 -->
+          <div class="proof-item">
+            <div class="proof-icon-wrapper">
+              <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="proof-content">
+              <h3>מבנה קבוצתי חכם</h3>
+              <p>שדרגו את האימון הקבוצתי עם ציוד שמארגן את השחקנים, משפר תרגילים ומחזק את הדינמיקה בקבוצה.</p>
+            </div>
+          </div>
+          <!-- Point 3 -->
+          <div class="proof-item">
+            <div class="proof-icon-wrapper">
+              <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            </div>
+            <div class="proof-content">
+              <h3>חזרתיות יומיומית</h3>
+              <p>ציוד שעומד בעומסים – גומיות חזקות, כדורים ייעודיים ובסיס יציב שמאפשרים לך לחזור על התרגיל שוב ושוב.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="/contact" class="cta-btn">
+          <span>דברו איתנו – קבוצה או מאמן</span>
+          <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <!-- Image Grid Column -->
+      <div class="editorial-media">
+        <div class="image-grid">
+          <!-- Main large image (top) -->
+          <div class="img-card img-card--main">
+            <img loading="lazy" decoding="async" data-placeholder="index-showcase-image-1" data-context="Close-up of a football player in a resisted sprint start, wearing a resistance band around the waist, intense focus, motion blur on the grass, dramatic lighting, sports photography style" width="600" height="400" src="/assets/site-index-showcase-image-1.webp" alt="שחקן כדורגל מבצע ספרינט עם גומיות התנגדות">
+            <div class="img-overlay"></div>
+          </div>
+          <!-- Bottom row: two smaller images -->
+          <div class="img-row">
+            <div class="img-card img-card--secondary">
+              <img loading="lazy" decoding="async" data-placeholder="index-showcase-image-2" data-context="A specialized training football at a player feet on artificial turf, detailed texture of the ball, shallow depth of field, cinematic lighting, warm tones" width="400" height="300" src="/assets/site-index-showcase-image-2.webp" alt="כדור אימון מיוחד לרגלי שחקן על דשא סינטטי">
+              <div class="img-overlay"></div>
+            </div>
+            <div class="img-card img-card--tertiary">
+              <img loading="lazy" decoding="async" data-placeholder="index-showcase-image-3" data-context="A coach setting up a youth football drill, placing orange cones on a green field, tactical board in the background, bright natural light, editorial sports photography" width="400" height="300" src="/assets/site-index-showcase-image-3.webp" alt="מאמן מכין תרגיל לקבוצת נוער עם קונוסים כתומים">
+              <div class="img-overlay"></div>
+            </div>
+          </div>
+          <!-- Peeking tile (offset from bottom corner) -->
+          <div class="peek-tile">
+            <img loading="lazy" decoding="async" data-placeholder="index-showcase-image-4" data-context="A close-up detail of a rubber training base on grass, texture and grip visible, shallow depth of field, moody lighting, product detail shot" width="200" height="150" src="/assets/site-index-showcase-image-4.webp" alt="תקריב של בסיס גומי לאימון על דשא">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Divider: Heatmap Gradient Band with SVG Wave -->
+  <div class="index-showcase-section-divider-wrapper" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="heatmapGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FF7A2F"/>
+          <stop offset="50%" stop-color="#C75A2F"/>
+          <stop offset="100%" stop-color="#7B5CF0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,80 L0,30 Q75,20 150,32 T300,28 Q375,22 450,35 T600,25 Q675,30 750,22 T900,35 Q975,28 1050,32 T1200,25 L1200,80 Z" fill="#F2F0E8" opacity="0.85"/>
+      <path d="M0,80 L0,40 Q75,30 150,42 T300,38 Q375,32 450,45 T600,35 Q675,40 750,32 T900,45 Q975,38 1050,42 T1200,35 L1200,80 Z" fill="#F2F0E8" opacity="0.6"/>
+    </svg>
+  </div>
+</section>
+
+<section data-band-index="4" class="index-cta-section" data-layout-spec="בית-cta">
+  <div class="index-cta-section__container">
+    <h2 class="index-cta-section__heading">
+      מוכנים לקחת את האימון לרמה הבאה?
+    </h2>
+    <p class="index-cta-section__description">
+      Next Level Football מציעה ציוד אימון מקצועי לכדורגל – גומיות התנגדות, כדורים ייחודיים ועזרי אימון טקטיים שיעזרו לך לשפר ביצועים, מהירות ושליטה במגרש. הצטרף לשחקנים ומאמנים שבחרו להתאמן חכם יותר.
+    </p>
+    <div class="index-cta-section__actions">
+      <a href="/products" class="index-cta-section__btn index-cta-section__btn--primary">
+        <span style="color: #1A1A1A !important">גלה את הציוד</span>
+        <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="/contact" class="index-cta-section__btn index-cta-section__btn--secondary">
+        <span>צור קשר</span>
+        <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Decorative turf-texture shape peeking from START-bottom area (right side in RTL) -->
+  <div class="index-cta-section__turf-shape" aria-hidden="true"></div>
+
+  <!-- Subtle heatmap radar motif -->
+  <div class="index-cta-section__heatmap" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="heatmap-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FF7A2F" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#FF7A2F" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#FF7A2F" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="110" cy="110" r="110" fill="url(#heatmap-grad)" opacity="0.4"/>
+      <circle cx="110" cy="110" r="80" fill="none" stroke="#FF7A2F" stroke-width="1" opacity="0.2"/>
+      <circle cx="110" cy="110" r="50" fill="none" stroke="#FF7A2F" stroke-width="1.5" opacity="0.3"/>
+      <circle cx="110" cy="110" r="20" fill="none" stroke="#FF7A2F" stroke-width="2" opacity="0.5"/>
+      <line x1="0" y1="110" x2="220" y2="110" stroke="#FF7A2F" stroke-width="0.5" opacity="0.15"/>
+      <line x1="110" y1="0" x2="110" y2="220" stroke="#FF7A2F" stroke-width="0.5" opacity="0.15"/>
+    </svg>
+  </div>
+
+  <!-- Decorative speed-bar-chart motif -->
+  <div class="index-cta-section__bar-chart" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="45" width="12" height="35" rx="2" fill="#FACC15" opacity="0.7"/>
+      <rect x="22" y="30" width="12" height="50" rx="2" fill="#FACC15" opacity="0.75"/>
+      <rect x="39" y="15" width="12" height="65" rx="2" fill="#FACC15" opacity="0.8"/>
+      <rect x="56" y="5" width="12" height="75" rx="2" fill="#FACC15" opacity="0.85"/>
+      <rect x="73" y="20" width="12" height="60" rx="2" fill="#FACC15" opacity="0.8"/>
+      <rect x="90" y="35" width="12" height="45" rx="2" fill="#FACC15" opacity="0.75"/>
+      <rect x="107" y="10" width="12" height="70" rx="2" fill="#FACC15" opacity="0.9"/>
+      <text x="60" y="78" text-anchor="middle" fill="#FACC15" font-size="8" font-weight="700" opacity="0.9">SPEED</text>
+    </svg>
+  </div>
+
+  <!-- Chalk-line accent -->
+  <div class="index-cta-section__chalk-line" aria-hidden="true"></div>
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-container">
+    <!-- Top Section: Multi-Column Grid -->
+    <div class="footer-grid">
+      
+      <!-- Column 1: Company Info -->
+      <div class="footer-col footer-brand-col">
+        <img src="/assets/next-level-football-sports-equipment-e-commerce-logo.webp" alt="Next Level Football" class="logo">
+        <p class="footer-tagline">ציוד מקצועי לכדורגלנים ומאמנים. אנחנו מביאים את האימון שלך לרמה הבאה.</p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col footer-links-col">
+        <h4>ניווט מהיר</h4>
+        <ul class="footer-links">
+          <li><a href="/">בית</a></li>
+          <li><a href="/training-approach">גישת האימון</a></li>
+          <li><a href="/for-coaches">למאמנים</a></li>
+          <li><a href="/faq">שאלות נפוצות</a></li>
+          <li><a href="/contact">צור קשר</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact Info -->
+      <div class="footer-col footer-contact-col">
+        <h4>צור קשר</h4>
+        <ul class="footer-contact">
+          <li>
+            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+            <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+            <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+          </li>
+          <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+            <span class="contact-text">[business_address]</span></a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Business Hours -->
+      <div class="footer-col footer-hours-col">
+        <h4>שעות פעילות</h4>
+        <ul class="footer-hours">
+          <li><a href="/"><span class="hours-day">ימים א'–ה'</span> <span class="hours-time">09:00–18:00</span></a></li>
+          <li><a href="/"><span class="hours-day">יום ו'</span> <span class="hours-time">09:00–13:00</span></a></li>
+          <li><a href="/"><span class="hours-day">שבת</span> <span class="hours-time">סגור</span></a></li>
+        </ul>
+      </div>
+
+      <!-- Column 5: Social Media -->
+      <div class="footer-col footer-social-col">
+        <h4>עקבו אחרינו</h4>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook" data-zappy-social-placeholder="true"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram" data-zappy-social-placeholder="true"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="WhatsApp" data-zappy-social-placeholder="true"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <p class="footer-copyright">© 2026 Next Level Football. כל הזכויות שמורות.</p>
+      </div>
+      <div class="footer-bottom-right">
+        <ul class="footer-legal">
+          <li><a href="/privacy">מדיניות פרטיות</a></li>
+          <li><a href="/terms">תנאי שימוש</a><span class="separator">|</span>
+            <a href="/return-policy" aria-label="מדיניות החזרות">
+              מדיניות החזרות
+            </a></li>
+          <li><a href="/accessibility">נגישות</a></li>
+        </ul>
+        <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div class="zappy-qv-overlay" id="zappy-qv-overlay" hidden></div>
+<div class="zappy-qv-modal" id="zappy-qv-modal" role="dialog" aria-modal="true" aria-label="תצוגה מהירה" hidden>
+  <button type="button" class="zappy-qv-close" id="zappy-qv-close" aria-label="סגור">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="zappy-qv-content" id="zappy-qv-content"></div>
+</div>
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
